@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10101a">
+<title>Harmotiva AI Video</title>
+<style>
+:root{color-scheme:dark;--bg:#0d0d16;--panel:#171725;--muted:#a7a7ba;--line:#303047;--accent:#9a75ff;--cyan:#55d7d0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#29204a 0,transparent 36%),var(--bg);color:#f7f5ff;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:900px;margin:auto;padding:28px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:38px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.4px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--accent),#4ccac7);display:grid;place-items:center;font-size:21px;color:#100e1b}.tag{font-size:12px;color:#d6caff;border:1px solid #55447d;border-radius:99px;padding:6px 10px}
+h1{font-size:clamp(32px,7vw,54px);line-height:1.04;letter-spacing:-1.8px;margin:0 0 12px}.gradient{background:linear-gradient(90deg,#c5aaff,#68e2d7);background-clip:text;color:transparent}.intro{color:var(--muted);max-width:620px;margin:0 0 28px}
+.panel{background:rgba(23,23,37,.92);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 55px #0004}.field{margin-bottom:20px}label,.legend{display:block;font-weight:650;margin-bottom:9px}.hint{font-size:12px;color:var(--muted);margin-top:7px}
+textarea,select{width:100%;border:1px solid var(--line);background:#10101b;color:#fff;border-radius:12px;padding:13px 14px;font:inherit;outline:none}textarea:focus,select:focus{border-color:var(--accent)}textarea{min-height:125px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.choices{display:flex;flex-wrap:wrap;gap:8px}.choice{border:1px solid var(--line);background:#11111c;color:#dedbea;border-radius:11px;padding:9px 13px;cursor:pointer}.choice[aria-pressed=true]{border-color:var(--accent);background:#30254c;color:white}
+button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.generate{width:100%;border:0;border-radius:13px;padding:15px 18px;background:linear-gradient(100deg,#9a75ff,#54cfc9);color:#11101a;font-weight:800;font-size:16px;cursor:pointer}.generate:active{transform:scale(.99)}
+.notice{display:none;margin-top:16px;padding:13px;border-radius:12px;background:#242039;border:1px solid #55447d;color:#e6ddff}.notice.show{display:block}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.feature{background:#141421;border:1px solid var(--line);border-radius:14px;padding:14px}.feature b{display:block;font-size:14px}.feature span{font-size:12px;color:var(--muted)}
+footer{margin-top:24px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:600px){main{padding:20px 14px 40px}.panel{padding:17px}.grid,.features{grid-template-columns:1fr}.top{margin-bottom:30px}}
+</style>
+</head>
+<body><main>
+<header class="top"><div class="brand"><div class="logo">H</div><span>HARMOTIVA <span class="gradient">AI VIDEO</span></span></div><span class="tag">BÊTA · V1</span></header>
+<section><h1>Donne vie à<br><span class="gradient">ton imagination.</span></h1><p class="intro">Prépare des vidéos IA de 1 à 5 minutes : histoires, animations, scènes cinématiques et contenus pour tes réseaux.</p></section>
+<section class="panel" aria-label="Préparer une vidéo">
+<div class="field"><label for="prompt">Décris la vidéo que tu veux créer</label><textarea id="prompt" placeholder="Exemple : Une petite fille découvre une forêt magique, rencontre un renard lumineux et part à l'aventure. Style cinématique, couleurs chaleureuses..."></textarea><div class="hint">Plus ta description est précise, meilleur sera le scénario à produire.</div></div>
+<div class="grid">
+<div class="field"><span class="legend">Durée souhaitée</span><div class="choices" id="durations"><button class="choice" aria-pressed="false" data-value="1">1 min</button><button class="choice" aria-pressed="true" data-value="2">2 min</button><button class="choice" aria-pressed="false" data-value="3">3 min</button><button class="choice" aria-pressed="false" data-value="5">5 min</button></div></div>
+<div class="field"><label for="format">Format vidéo</label><select id="format"><option value="vertical">Vertical 9:16 · Shorts / Reels / TikTok</option><option value="horizontal">Horizontal 16:9 · YouTube</option><option value="square">Carré 1:1 · Réseaux sociaux</option></select></div>
+</div>
+<div class="grid">
+<div class="field"><label for="style">Style visuel</label><select id="style"><option>Choisir automatiquement</option><option>Dessin animé 3D</option><option>Réaliste cinématique</option><option>Anime</option><option>Documentaire</option><option>Illustration jeunesse</option></select></div>
+<div class="field"><label for="language">Langue de la voix</label><select id="language"><option>Français</option><option>Somali</option><option>Anglais</option><option>Arabe</option><option>Sans voix</option></select></div>
+</div>
+<button class="generate" id="generate">✦ Préparer mon projet vidéo</button>
+<div class="notice" id="notice" role="status"></div>
+</section>
+<div class="features"><div class="feature">🎬 <b>Multi-scènes</b><span>Assembler des séquences en une histoire longue.</span></div><div class="feature">🎙️ <b>Voix & sous-titres</b><span>Prévoir narration et texte à l'écran.</span></div><div class="feature">📱 <b>Mobile d'abord</b><span>Interface conçue pour Android.</span></div></div>
+<footer>Harmotiva AI Video · Prototype V1 · Le moteur de génération vidéo sera connecté dans une prochaine étape.</footer>
+</main>
+<script>
+const durationButtons=[...document.querySelectorAll('#durations .choice')];let duration='2';
+durationButtons.forEach(b=>b.addEventListener('click',()=>{duration=b.dataset.value;durationButtons.forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
+document.getElementById('generate').addEventListener('click',()=>{const prompt=document.getElementById('prompt').value.trim();const box=document.getElementById('notice');if(!prompt){box.textContent='Écris d’abord une description pour préparer ta vidéo.';box.classList.add('show');document.getElementById('prompt').focus();return;}
+const project={description:prompt,duration_minutes:duration,format:document.getElementById('format').value,visual_style:document.getElementById('style').value,voice_language:document.getElementById('language').value};
+box.textContent='Ton brief est prêt : '+project.duration_minutes+' minute(s), format '+project.format+'. Le moteur IA n’est pas encore connecté ; cette version prépare le projet sans lancer de génération ni consommer de crédits.';
+box.classList.add('show');});
+</script>
+</body></html>
