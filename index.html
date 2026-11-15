@@ -25,6 +25,7 @@ footer{margin-top:24px;color:var(--muted);font-size:12px;text-align:center}
 <header class="top"><div class="brand"><div class="logo">H</div><span>HARMOTIVA <span class="gradient">AI VIDEO</span></span></div><span class="tag">BÊTA · V2</span></header>
 <section><h1>Donne vie à<br><span class="gradient">ton imagination.</span></h1><p class="intro">Décris une scène et lance une vraie génération vidéo avec le moteur LTX. Cette première connexion produit un clip court ; les vidéos de 1 à 5 minutes nécessiteront ensuite l'assemblage de plusieurs clips.</p></section>
 <section class="panel" aria-label="Créer une vidéo">
+<div class="field"><label for="hfToken">Jeton Hugging Face (facultatif, privé)</label><input id="hfToken" type="password" autocomplete="off" placeholder="Colle ici ton jeton hf_… sur ton propre téléphone"><div class="hint">Le jeton reste dans cette page pendant la génération. Il n’est pas enregistré dans GitHub ni dans le navigateur.</div></div>
 <div class="field"><label for="prompt">Décris la vidéo que tu veux créer</label><textarea id="prompt" placeholder="Exemple : Une petite fille découvre une forêt magique, rencontre un renard lumineux et part à l'aventure. Style cinématique, couleurs chaleureuses..."></textarea><div class="hint">Pour ce premier test, le moteur génère un clip d'environ 5 secondes.</div></div>
 <div class="grid">
 <div class="field"><label for="format">Format vidéo</label><select id="format"><option value="vertical">Vertical 9:16 · Shorts / Reels / TikTok</option><option value="horizontal">Horizontal 16:9 · YouTube</option><option value="square">Carré 1:1 · Réseaux sociaux</option></select></div>
@@ -67,7 +68,10 @@ button.addEventListener("click", async () => {
   resultBox.classList.remove("show");
   video.removeAttribute("src");
   try {
-    const app = await Client.connect("Lightricks/ltx-video-distilled");
+    const tokenInput = document.getElementById("hfToken");
+    const hfToken = tokenInput.value.trim();
+    const app = await Client.connect("Lightricks/ltx-video-distilled", hfToken ? { token: hfToken } : {});
+    tokenInput.value = "";
     button.textContent = "🎬 Génération en cours…";
     showMessage("Demande envoyée au moteur LTX. La génération peut prendre plusieurs minutes selon la file d'attente gratuite.");
     const format = document.getElementById("format").value;
