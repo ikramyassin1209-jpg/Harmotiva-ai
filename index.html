@@ -70,7 +70,7 @@ button.addEventListener("click", async () => {
   try {
     const tokenInput = document.getElementById("hfToken");
     const hfToken = tokenInput.value.trim();
-    const app = await Client.connect("Lightricks/ltx-video-distilled", hfToken ? { token: hfToken } : {});
+    const app = await Client.connect("https://lightricks-ltx-video-distilled.hf.space", hfToken ? { token: hfToken } : {});
     tokenInput.value = "";
     button.textContent = "🎬 Génération en cours…";
     showMessage("Demande envoyée au moteur LTX. La génération peut prendre plusieurs minutes selon la file d'attente gratuite.");
