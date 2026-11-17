@@ -10,11 +10,11 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#29204a 0,transparent 36%),var(--bg);color:#f7f5ff;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
 main{max-width:900px;margin:auto;padding:28px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:38px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.4px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--accent),#4ccac7);display:grid;place-items:center;font-size:21px;color:#100e1b}.tag{font-size:12px;color:#d6caff;border:1px solid #55447d;border-radius:99px;padding:6px 10px}
 h1{font-size:clamp(32px,7vw,54px);line-height:1.04;letter-spacing:-1.8px;margin:0 0 12px}.gradient{background:linear-gradient(90deg,#c5aaff,#68e2d7);background-clip:text;color:transparent}.intro{color:var(--muted);max-width:620px;margin:0 0 28px}
-.panel{background:rgba(23,23,37,.92);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 55px #0004}.field{margin-bottom:20px}label,.legend{display:block;font-weight:650;margin-bottom:9px}.hint{font-size:12px;color:var(--muted);margin-top:7px}
-textarea,select{width:100%;border:1px solid var(--line);background:#10101b;color:#fff;border-radius:12px;padding:13px 14px;font:inherit;outline:none}textarea:focus,select:focus{border-color:var(--accent)}textarea{min-height:125px;resize:vertical}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.choices{display:flex;flex-wrap:wrap;gap:8px}.choice{border:1px solid var(--line);background:#11111c;color:#dedbea;border-radius:11px;padding:9px 13px;cursor:pointer}.choice[aria-pressed=true]{border-color:var(--accent);background:#30254c;color:white}
+.panel{background:rgba(23,23,37,.92);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 55px #0004}.field{margin-bottom:20px}label{display:block;font-weight:650;margin-bottom:9px}.hint{font-size:12px;color:var(--muted);margin-top:7px}
+textarea,input,select{width:100%;border:1px solid var(--line);background:#10101b;color:#fff;border-radius:12px;padding:13px 14px;font:inherit;outline:none}textarea:focus,input:focus,select:focus{border-color:var(--accent)}textarea{min-height:125px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.generate{width:100%;border:0;border-radius:13px;padding:15px 18px;background:linear-gradient(100deg,#9a75ff,#54cfc9);color:#11101a;font-weight:800;font-size:16px;cursor:pointer}.generate:disabled{opacity:.6;cursor:wait}
-.notice{display:none;margin-top:16px;padding:13px;border-radius:12px;background:#242039;border:1px solid #55447d;color:#e6ddff}.notice.show{display:block}.notice.error{background:#3b2028;border-color:#8b4555;color:#ffe1e5}
+.notice{display:none;margin-top:16px;padding:13px;border-radius:12px;background:#242039;border:1px solid #55447d;color:#e6ddff;overflow-wrap:anywhere}.notice.show{display:block}.notice.error{background:#3b2028;border-color:#8b4555;color:#ffe1e5}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.feature{background:#141421;border:1px solid var(--line);border-radius:14px;padding:14px}.feature b{display:block;font-size:14px}.feature span{font-size:12px;color:var(--muted)}
 .result{display:none;margin-top:18px}.result.show{display:block}.result video{width:100%;max-height:520px;border-radius:14px;background:#000}.download{display:inline-block;margin-top:10px;color:#cdbaff}
 footer{margin-top:24px;color:var(--muted);font-size:12px;text-align:center}
@@ -22,133 +22,51 @@ footer{margin-top:24px;color:var(--muted);font-size:12px;text-align:center}
 </style>
 </head>
 <body><main>
-<header class="top"><div class="brand"><div class="logo">H</div><span>HARMOTIVA <span class="gradient">AI VIDEO</span></span></div><span class="tag">BÊTA · V2</span></header>
-<section><h1>Donne vie à<br><span class="gradient">ton imagination.</span></h1><p class="intro">Décris une scène et lance une vraie génération vidéo avec le moteur LTX. Cette première connexion produit un clip court ; les vidéos de 1 à 5 minutes nécessiteront ensuite l'assemblage de plusieurs clips.</p></section>
+<header class="top"><div class="brand"><div class="logo">H</div><span>HARMOTIVA <span class="gradient">AI VIDEO</span></span></div><span class="tag">BÊTA · V3</span></header>
+<section><h1>Donne vie à<br><span class="gradient">ton imagination.</span></h1><p class="intro">Décris une scène et lance une génération vidéo avec Magic Hour. La génération utilise les crédits et limites de ton compte Magic Hour. Commence par un clip court.</p></section>
 <section class="panel" aria-label="Créer une vidéo">
-<div class="field"><label for="hfToken">Jeton Hugging Face (facultatif, privé)</label><input id="hfToken" type="password" autocomplete="off" placeholder="Colle ici ton jeton hf_… sur ton propre téléphone"><div class="hint">Le jeton reste dans cette page pendant la génération. Il n’est pas enregistré dans GitHub ni dans le navigateur.</div></div>
-<div class="field"><label for="prompt">Décris la vidéo que tu veux créer</label><textarea id="prompt" placeholder="Exemple : Une petite fille découvre une forêt magique, rencontre un renard lumineux et part à l'aventure. Style cinématique, couleurs chaleureuses..."></textarea><div class="hint">Pour ce premier test, le moteur génère un clip d'environ 5 secondes.</div></div>
+<div class="field"><label for="apiUrl">Adresse du serveur Harmotiva (Cloudflare)</label><input id="apiUrl" type="url" inputmode="url" placeholder="https://nom-du-worker.nom-du-compte.workers.dev"><div class="hint">Adresse publique du Worker Cloudflare. Elle sera mémorisée uniquement sur cet appareil.</div></div>
+<div class="field"><label for="prompt">Décris la vidéo que tu veux créer</label><textarea id="prompt" placeholder="Exemple : Une petite fille découvre une forêt magique, rencontre un renard lumineux et part à l'aventure. Style cinématique, couleurs chaleureuses..."></textarea></div>
 <div class="grid">
-<div class="field"><label for="format">Format vidéo</label><select id="format"><option value="vertical">Vertical 9:16 · Shorts / Reels / TikTok</option><option value="horizontal">Horizontal 16:9 · YouTube</option><option value="square">Carré 1:1 · Réseaux sociaux</option></select></div>
-<div class="field"><label for="style">Style visuel</label><select id="style"><option>Réaliste cinématique</option><option>Dessin animé 3D</option><option>Anime</option><option>Documentaire</option><option>Illustration jeunesse</option></select></div>
+<div class="field"><label for="format">Format vidéo</label><select id="format"><option value="9:16">Vertical 9:16 · Shorts / Reels / TikTok</option><option value="16:9">Horizontal 16:9 · YouTube</option><option value="1:1">Carré 1:1 · Réseaux sociaux</option></select></div>
+<div class="field"><label for="duration">Durée du clip</label><select id="duration"><option value="5">5 secondes · Test conseillé</option><option value="10">10 secondes</option><option value="15">15 secondes</option></select></div>
 </div>
 <button class="generate" id="generate">✦ Générer ma vidéo</button>
 <div class="notice" id="notice" role="status" aria-live="polite"></div>
 <div class="result" id="result"><video id="video" controls playsinline></video><a class="download" id="download" download="harmotiva-video.mp4">Télécharger la vidéo MP4</a></div>
 </section>
-<div class="features"><div class="feature">🎬 <b>Génération réelle</b><span>Connexion au moteur LTX sur Hugging Face.</span></div><div class="feature">📱 <b>Mobile d'abord</b><span>Interface conçue pour Android.</span></div><div class="feature">🆓 <b>Sans paiement Harmotiva</b><span>Utilise la file publique disponible, avec ses limites et son attente éventuelle.</span></div></div>
-<footer>Harmotiva AI Video · Bêta · LTX public peut être soumis à une file d'attente ou à des quotas gratuits.</footer>
+<div class="features"><div class="feature">🎬 <b>Magic Hour</b><span>Génération vidéo via ton compte API.</span></div><div class="feature">📱 <b>Mobile d'abord</b><span>Interface conçue pour Android.</span></div><div class="feature">🔐 <b>Clé protégée</b><span>La clé API reste dans les secrets Cloudflare, jamais dans cette page.</span></div></div>
+<footer>Harmotiva AI Video · Bêta · Les générations peuvent consommer des crédits Magic Hour.</footer>
 </main>
-<script type="module">
-import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
-
-const button = document.getElementById("generate");
-const promptInput = document.getElementById("prompt");
-const notice = document.getElementById("notice");
-const resultBox = document.getElementById("result");
-const video = document.getElementById("video");
-const download = document.getElementById("download");
-
-function showMessage(message, isError=false) {
-  notice.textContent = message;
-  notice.classList.add("show");
-  notice.classList.toggle("error", isError);
-}
-
-button.addEventListener("click", async () => {
-  const prompt = promptInput.value.trim();
-  if (!prompt) {
-    showMessage("Écris d'abord une description de la vidéo.", true);
-    promptInput.focus();
-    return;
+<script>
+const button=document.getElementById("generate"),promptInput=document.getElementById("prompt"),notice=document.getElementById("notice"),resultBox=document.getElementById("result"),video=document.getElementById("video"),download=document.getElementById("download"),apiInput=document.getElementById("apiUrl");
+apiInput.value=localStorage.getItem("harmotiva_worker_url")||"";
+function showMessage(message,isError=false){notice.textContent=message;notice.classList.add("show");notice.classList.toggle("error",isError)}
+function getBase(){const raw=apiInput.value.trim().replace(/\/$/,"");if(!raw)throw new Error("Ajoute d'abord l'adresse du Worker Cloudflare.");const u=new URL(raw);if(u.protocol!=="https:")throw new Error("L'adresse du serveur doit commencer par https://");return raw}
+async function readJson(response){const text=await response.text();let data;try{data=JSON.parse(text)}catch{throw new Error("Réponse serveur illisible ("+response.status+").")}if(!response.ok)throw new Error(data.error||data.message||"Erreur serveur "+response.status);return data}
+button.addEventListener("click",async()=>{
+ const prompt=promptInput.value.trim();if(!prompt){showMessage("Écris d'abord une description de la vidéo.",true);promptInput.focus();return}
+ button.disabled=true;button.textContent="⏳ Connexion à Harmotiva…";notice.classList.remove("show","error");resultBox.classList.remove("show");video.removeAttribute("src");
+ try{
+  const base=getBase();localStorage.setItem("harmotiva_worker_url",base);
+  const health=await fetch(base+"/health");const healthData=await readJson(health);if(!healthData.ok)throw new Error("Le serveur Harmotiva n'est pas prêt.");
+  button.textContent="🎬 Création de la vidéo…";showMessage("Envoi de ta demande à Magic Hour… La génération peut prendre quelques minutes.");
+  const created=await readJson(await fetch(base+"/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt,seconds:Number(document.getElementById("duration").value),aspect_ratio:document.getElementById("format").value})}));
+  const id=created.id||created.project_id||created.video_id;if(!id)throw new Error("Magic Hour n'a pas retourné d'identifiant de projet : "+JSON.stringify(created).slice(0,500));
+  for(let attempt=0;attempt<90;attempt++){
+   button.textContent="⏳ Génération… "+Math.min(99,Math.round((attempt+1)/90*100))+"%";
+   await new Promise(resolve=>setTimeout(resolve,8000));
+   const status=await readJson(await fetch(base+"/api/status/"+encodeURIComponent(id)));
+   const state=String(status.status||status.project?.status||"").toLowerCase();
+   const urls=status.downloads||status.project?.downloads||[];
+   const direct=status.download?.url||status.video_url||status.url||(Array.isArray(urls)&&urls[0]?.url);
+   if(state==="complete"&&direct){video.src=direct;download.href=direct;resultBox.classList.add("show");showMessage("Ta vidéo est prête ! Tu peux la regarder ou la télécharger.");resultBox.scrollIntoView({behavior:"smooth",block:"start"});return}
+   if(state==="error"||state==="canceled")throw new Error(status.error?.message||status.message||"La génération a échoué.");
+   showMessage(state==="queued"?"Ta vidéo attend son tour…": "Ta vidéo est en cours de création ("+(state||"traitement")+")…");
   }
-
-  button.disabled = true;
-  button.textContent = "⏳ Connexion au moteur LTX…";
-  notice.classList.remove("show", "error");
-  resultBox.classList.remove("show");
-  video.removeAttribute("src");
-  try {
-    const tokenInput = document.getElementById("hfToken");
-    const hfToken = tokenInput.value.trim();
-    const app = await Client.connect("https://lightricks-ltx-video-distilled.hf.space", hfToken ? { token: hfToken } : {});
-    // Keep the token visible in the password field for this page session; it is not saved to GitHub or persistent browser storage.
-    button.textContent = "🎬 Génération en cours…";
-    showMessage("Demande envoyée au moteur LTX. La génération peut prendre plusieurs minutes selon la file d'attente gratuite.");
-    const format = document.getElementById("format").value;
-    let height = 512, width = 512;
-    if (format === "vertical") { height = 704; width = 384; }
-    if (format === "horizontal") { height = 384; width = 704; }
-
-    const response = await app.predict("/text_to_video", [
-      prompt,
-      "worst quality, inconsistent motion, blurry, jittery, distorted",
-      null,
-      null,
-      height,
-      width,
-      "text-to-video",
-      5,
-      9,
-      42,
-      true,
-      1.0,
-      true
-    ]);
-
-    const output = response?.data?.[0];
-
-    function findVideoUrl(value, depth = 0) {
-      if (depth > 6 || value == null) return null;
-      if (typeof value === "string") {
-        if (/^https?:\\/\\//i.test(value) || value.startsWith("blob:")) return value;
-        if (value.startsWith("/")) {
-          return "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=" + encodeURIComponent(value);
-        }
-        return null;
-      }
-      if (Array.isArray(value)) {
-        for (const item of value) {
-          const found = findVideoUrl(item, depth + 1);
-          if (found) return found;
-        }
-        return null;
-      }
-      if (typeof value === "object") {
-        for (const key of ["url", "video", "path", "data", "file"]) {
-          if (key in value) {
-            const found = findVideoUrl(value[key], depth + 1);
-            if (found) return found;
-          }
-        }
-        for (const item of Object.values(value)) {
-          const found = findVideoUrl(item, depth + 1);
-          if (found) return found;
-        }
-      }
-      return null;
-    }
-
-    const videoUrl = findVideoUrl(output);
-    if (!videoUrl) {
-      console.error("Réponse complète du moteur LTX :", response);
-      let diagnostic = "";
-      try { diagnostic = JSON.stringify(response?.data ?? response, null, 2); }
-      catch (_) { diagnostic = String(response?.data ?? response); }
-      showMessage("LTX a répondu, mais Harmotiva ne reconnaît pas encore le fichier. Détails techniques reçus : " + diagnostic.slice(0, 1200), true);
-      return;
-    }
-    video.src = videoUrl;
-    download.href = videoUrl;
-    resultBox.classList.add("show");
-    showMessage("Vidéo générée ! Tu peux la regarder ci-dessous ou la télécharger.");
-    resultBox.scrollIntoView({behavior:"smooth", block:"start"});
-  } catch (error) {
-    console.error(error);
-    showMessage("La génération n'a pas abouti : " + (error?.message || "erreur de connexion ou limite gratuite LTX") + ". Réessaie plus tard. Aucun paiement n'est demandé par Harmotiva.", true);
-  } finally {
-    button.disabled = false;
-    button.textContent = "✦ Générer ma vidéo";
-  }
+  throw new Error("La génération prend plus de temps que prévu. Ton projet est créé ; réessaie plus tard sans relancer une nouvelle génération.");
+ }catch(error){console.error(error);showMessage(error.message||"Erreur de connexion. Vérifie le serveur Cloudflare.",true)}
+ finally{button.disabled=false;button.textContent="✦ Générer ma vidéo"}
 });
 </script>
 </body></html>
