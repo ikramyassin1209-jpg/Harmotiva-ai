@@ -131,7 +131,11 @@ button.addEventListener("click", async () => {
     const videoUrl = findVideoUrl(output);
     if (!videoUrl) {
       console.error("Réponse complète du moteur LTX :", response);
-      throw new Error("LTX a répondu, mais le format du fichier vidéo n'a pas été reconnu. La réponse technique a été enregistrée dans la console.");
+      let diagnostic = "";
+      try { diagnostic = JSON.stringify(response?.data ?? response, null, 2); }
+      catch (_) { diagnostic = String(response?.data ?? response); }
+      showMessage("LTX a répondu, mais Harmotiva ne reconnaît pas encore le fichier. Détails techniques reçus : " + diagnostic.slice(0, 1200), true);
+      return;
     }
     video.src = videoUrl;
     download.href = videoUrl;
