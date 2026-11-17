@@ -71,7 +71,7 @@ button.addEventListener("click", async () => {
     const tokenInput = document.getElementById("hfToken");
     const hfToken = tokenInput.value.trim();
     const app = await Client.connect("https://lightricks-ltx-video-distilled.hf.space", hfToken ? { token: hfToken } : {});
-    tokenInput.value = "";
+    // Keep the token visible in the password field for this page session; it is not saved to GitHub or persistent browser storage.
     button.textContent = "🎬 Génération en cours…";
     showMessage("Demande envoyée au moteur LTX. La génération peut prendre plusieurs minutes selon la file d'attente gratuite.");
     const format = document.getElementById("format").value;
