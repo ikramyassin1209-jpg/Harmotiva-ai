@@ -96,9 +96,42 @@ button.addEventListener("click", async () => {
     ]);
 
     const output = response?.data?.[0];
-    const videoUrl = typeof output === "string" ? output : (output?.url || output?.path);
+
+    function findVideoUrl(value, depth = 0) {
+      if (depth > 6 || value == null) return null;
+      if (typeof value === "string") {
+        if (/^https?:\\/\\//i.test(value) || value.startsWith("blob:")) return value;
+        if (value.startsWith("/")) {
+          return "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=" + encodeURIComponent(value);
+        }
+        return null;
+      }
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          const found = findVideoUrl(item, depth + 1);
+          if (found) return found;
+        }
+        return null;
+      }
+      if (typeof value === "object") {
+        for (const key of ["url", "video", "path", "data", "file"]) {
+          if (key in value) {
+            const found = findVideoUrl(value[key], depth + 1);
+            if (found) return found;
+          }
+        }
+        for (const item of Object.values(value)) {
+          const found = findVideoUrl(item, depth + 1);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+
+    const videoUrl = findVideoUrl(output);
     if (!videoUrl) {
-      throw new Error("Le moteur a répondu, mais le lien de la vidéo n'a pas été reconnu.");
+      console.error("Réponse complète du moteur LTX :", response);
+      throw new Error("LTX a répondu, mais le format du fichier vidéo n'a pas été reconnu. La réponse technique a été enregistrée dans la console.");
     }
     video.src = videoUrl;
     download.href = videoUrl;
